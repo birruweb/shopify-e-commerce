@@ -47,7 +47,11 @@
     "theme": "Tema",
     "typography": "Tipografía",
     "social_media": "Redes Sociales",
-    "quote": "Cita"
+    "quote": "Cita",
+    "newsletter": "Boletín",
+    "header_title": "Encabezado",
+     "design": "Design",
+      "color_scheme": "Esquema de color"
   },
   "sections": {
     "quote": {
@@ -57,6 +61,7 @@
     }
   },
   "labels": {
+    "text_alignment": "Alineación del texto",
     "alignment": "Alineación",
     "background": "Fondo",
     "foreground": "Color de texto",

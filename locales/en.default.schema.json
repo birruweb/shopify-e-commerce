@@ -47,7 +47,11 @@
     "theme": "Theme",
     "typography": "Typography",
     "social_media": "Social Media",
-    "quote": "Quote"
+    "quote": "Quote",
+    "newsletter": "Newsletter",
+    "header_title": "Header",
+    "design": "Design",
+    "color_scheme": "Color scheme"
   },
   "sections": {
     "quote": {
@@ -57,6 +61,7 @@
     }
   },
   "labels": {
+    "text_alignment": "Text alignment",
     "alignment": "Alignment",
     "background": "Background",
     "foreground": "Foreground",
@@ -94,6 +99,7 @@
     "padding_top": "Top padding",
     "padding_bottom": "Bottom padding",
     "enable_socials": "Enable social media icons"
+
   },
   "info": {
     "enable_socials": "When enabled, social media icons will be displayed in the announcement bar."
