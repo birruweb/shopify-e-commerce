@@ -1,0 +1,170 @@
+<figure class="quote">
+  <div class="quote__content"> 
+  <span class="quote__icon" aria-hidden="true">
+    {{ 'icon-quote.svg' | inline_asset_content }}
+  </span>
+  
+  <blockquote>
+    <p>{{ section.settings.quote_content }}</p>
+  </blockquote>
+  </div>
+  <div class="quote__author">
+    {% if section.settings.author_image %}
+      <div class="quote__author-image">
+        {{
+          section.settings.author_image
+          | image_url: width: 80, height: 80
+          | image_tag: alt: section.settings.author_name
+        }}
+      </div>
+    {% endif %}
+    <figcaption class="quote__attribution">
+      <cite class="quote__author-name">{{ section.settings.author_name }}</cite>
+      <span class="quote__author-role">{{ section.settings.author_rol }}</span>
+    </figcaption>
+  </div>
+</figure>
+
+{% schema %}
+{
+  "name": "t:sections.quote.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.quote.content_settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "vertical_alignment",
+      "label": "alineacion vertical",
+      "default": true
+    },
+    {
+      "type": "color",
+        "id": "icon_color",
+      "label": "t:labels.icon_color",
+      "default": "#e85a3c"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_content",
+      "label": "t:labels.quote_content",
+      "default": "t:defaults.quote_content"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "t:labels.author_name",
+      "default": "t:defaults.author_name"
+    },
+    {
+      "type": "text",
+      "id": "author_rol",
+      "label": "t:labels.author_role",
+      "default": "t:defaults.author_role"
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "t:labels.author_image"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.quote.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 20,
+      "unit": "px",
+      "label": "t:labels.padding_top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 20,
+      "unit": "px",
+      "label": "t:labels.padding_bottom",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.quote.name"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .quote__icon {
+    color: {{ section.settings.icon_color }};
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+
+
+  }
+
+  .quote__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .quote__author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .quote__author-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .quote__author-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .quote{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+
+  }
+  .quote__attribution{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+  }
+  .quote__content p{
+    text-align: center;
+    line-height: 1.5;
+  }
+
+    .quote__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: {% if section.settings.vertical_alignment %}column{% else %}row{% endif %};
+      gap: 1rem;
+    }
+{% endstyle %}

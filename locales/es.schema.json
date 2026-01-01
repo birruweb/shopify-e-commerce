@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "404": "No encontrado",
+    "article": "Artículo",
+    "block": "Bloque",
+    "blog": "Blog",
+    "cart": "Carrito",
+    "collection": "Colección",
+    "collections": "Colecciones",
+    "collection_card": "Tarjeta de colección",
+    "collections_grid": "Cuadrícula de colecciones",
+    "colors": "Colores",
+    "column": "Columna",
+    "content": "Contenido",
+    "custom_section": "Sección personalizada",
+    "fonts": "Fuentes",
+    "footer": "Pie de página",
+    "group": "Grupo",
+    "header": "Encabezado",
+    "announcement_bar": "Barra de anuncios",
+    "announcement": "Anuncio",
+    "header_colors": "Colores del menú",
+    "search_color": "Colores del buscador",
+    "accent_color": "Color de acento",
+    "layout": "Diseño",
+    "main": "Principal",
+    "page": "Página",
+    "password": "Contraseña",
+    "primary": "Primario",
+    "product": "Producto",
+    "row": "Fila",
+    "search": "Buscar",
+    "secondary": "Secundario",
+    "section": "Sección",
+    "settings": "Configuración",
+    "sidebar": "Barra lateral",
+    "text": "Texto",
+    "theme": "Tema",
+    "typography": "Tipografía",
+    "social_media": "Redes Sociales",
+    "quote": "Cita"
+  },
+  "sections": {
+    "quote": {
+      "name": "Cita",
+      "content_settings": "Configuración de contenido",
+      "padding": "Relleno"
+    }
+  },
+  "labels": {
+    "alignment": "Alineación",
+    "background": "Fondo",
+    "foreground": "Color de texto",
+    "grid_gap": "Espaciado de cuadrícula",
+    "grid_item_width": "Ancho de elemento",
+    "input_corner_radius": "Radio de esquinas",
+    "layout_direction": "Dirección del diseño",
+    "menu": "Menú",
+    "padding": "Relleno",
+    "page_margin": "Margen de página",
+    "page_width": "Ancho de página",
+    "show_payment_icons": "Mostrar iconos de pago",
+    "text_style": "Estilo de texto",
+    "text": "Texto",
+    "logo": "Logo",
+    "sticky_header": "Encabezado fijo",
+    "content_alignment": "Alineación del contenido",
+    "link": "Enlace",
+    "text_color": "Color de texto",
+    "sticky": "Fijo",
+    "rotation_speed": "Velocidad de rotación",
+    "show_facebook": "Mostrar icono de Facebook",
+    "facebook_url": "URL de Facebook",
+    "show_instagram": "Mostrar icono de Instagram",
+    "instagram_url": "URL de Instagram",
+    "show_x": "Mostrar icono de X",
+    "x_url": "URL de X",
+    "show_tiktok": "Mostrar icono de TikTok",
+    "tiktok_url": "URL de TikTok",
+    "icon_color": "Color del icono",
+    "quote_content": "Contenido de la cita",
+    "author_name": "Nombre del autor",
+    "author_role": "Rol del autor",
+    "author_image": "Imagen del autor",
+    "padding_top": "Relleno superior",
+    "padding_bottom": "Relleno inferior",
+    "enable_socials": "Habilitar iconos de redes sociales"
+  },
+  "info": {
+    "enable_socials": "Cuando está habilitado, se mostrarán los iconos de redes sociales en la barra de anuncios."
+  },
+  "defaults": {
+    "quote_content": "Este producto ha transformado completamente mi rutina diaria. La calidad es excepcional y los resultados hablan por sí solos.",
+    "author_name": "María García",
+    "author_role": "Cliente verificado"
+  },
+  "options": {
+    "alignment": {
+      "left": "Izquierda",
+      "center": "Centro",
+      "right": "Derecha",
+      "top": "Arriba",
+      "bottom": "Abajo"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Angosto",
+      "wide": "Ancho"
+    },
+    "size": {
+      "large": "Grande",
+      "small": "Pequeño"
+    },
+    "text_style": {
+      "title": "Título",
+      "subtitle": "Subtítulo",
+      "normal": "Texto normal"
+    }
+  }
+}

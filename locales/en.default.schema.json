@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "404": "Not found",
+    "article": "Article",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Cart",
+    "collection": "Collection",
+    "collections": "Collections",
+    "collection_card": "Collection card",
+    "collections_grid": "Collections grid",
+    "colors": "Colors",
+    "column": "Column",
+    "content": "Content",
+    "custom_section": "Custom section",
+    "fonts": "Fonts",
+    "footer": "Footer",
+    "group": "Group",
+    "header": "Header",
+    "announcement_bar": "Announcement bar",
+    "announcement": "Announcement",
+    "header_colors": "Header colors",
+    "search_color": "Search color",
+    "accent_color": "Accent color",
+    "layout": "Layout",
+    "main": "Main",
+    "page": "Page",
+    "password": "Password",
+    "primary": "Primary",
+    "product": "Product",
+    "row": "Row",
+    "search": "Search",
+    "secondary": "Secondary",
+    "section": "Section",
+    "settings": "Settings",
+    "sidebar": "Sidebar",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typography",
+    "social_media": "Social Media",
+    "quote": "Quote"
+  },
+  "sections": {
+    "quote": {
+      "name": "Quote",
+      "content_settings": "Content settings",
+      "padding": "Padding"
+    }
+  },
+  "labels": {
+    "alignment": "Alignment",
+    "background": "Background",
+    "foreground": "Foreground",
+    "grid_gap": "Grid spacing",
+    "grid_item_width": "Grid item width",
+    "input_corner_radius": "Input corner radius",
+    "layout_direction": "Layout direction",
+    "menu": "Menu",
+    "padding": "Padding",
+    "page_margin": "Page margin",
+    "page_width": "Page width",
+    "show_payment_icons": "Show payment icons",
+    "text_style": "Text style",
+    "text": "Text",
+    "logo": "Logo",
+    "sticky_header": "Sticky header",
+    "content_alignment": "Content alignment",
+    "link": "Link",
+    "text_color": "Text color",
+    "sticky": "Sticky",
+    "rotation_speed": "Rotation speed",
+    "show_facebook": "Show Facebook icon",
+    "facebook_url": "Facebook URL",
+    "show_instagram": "Show Instagram icon",
+    "instagram_url": "Instagram URL",
+    "show_x": "Show X icon",
+    "x_url": "X URL",
+    "show_tiktok": "Show TikTok icon",
+    "tiktok_url": "TikTok URL",
+    "icon_color": "Icon color",
+    "quote_content": "Quote content",
+    "author_name": "Author name",
+    "author_role": "Author role",
+    "author_image": "Author image",
+    "padding_top": "Top padding",
+    "padding_bottom": "Bottom padding",
+    "enable_socials": "Enable social media icons"
+  },
+  "info": {
+    "enable_socials": "When enabled, social media icons will be displayed in the announcement bar."
+  },
+  "defaults": {
+    "quote_content": "This product has completely transformed my daily routine. The quality is exceptional and the results speak for themselves.",
+    "author_name": "Jane Doe",
+    "author_role": "Verified Customer"
+  },
+  "options": {
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right",
+      "top": "Top",
+      "bottom": "Bottom"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Narrow",
+      "wide": "Wide"
+    },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal text"
+    },
+  }
+}

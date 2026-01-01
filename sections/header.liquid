@@ -1,0 +1,656 @@
+<header
+  class="header full-width"
+  data-sticky="{{ section.settings.sticky }}"
+>
+  <div class="header__container">
+    {%- comment -%} Logo {%- endcomment -%}
+    <div class="header__logo">
+      <a href="{{ routes.root_url }}" class="header__logo-link">
+        {% if section.settings.logo %}
+          {{
+            section.settings.logo
+            | image_url: height: 64
+            | image_tag: alt: shop.name, class: 'header__logo-image', loading: 'eager'
+          }}
+        {% else %}
+          <img
+            src="{{ 'logo.png' | asset_url }}"
+            alt="{{ shop.name }}"
+            class="header__logo-image"
+            width="120"
+            height="32"
+            loading="eager"
+          >
+        {% endif %}
+      </a>
+    </div>
+
+    {%- comment -%} Center content: Search + Nav {%- endcomment -%}
+    <div class="header__center">
+      {%- comment -%} Search bar - Desktop {%- endcomment -%}
+      <div class="header__search">
+        <form action="{{ routes.search_url }}" method="get" class="header__search-form">
+          <input
+            type="search"
+            name="q"
+            placeholder="{{ 'header.search_placeholder' | t }}"
+            class="header__search-input"
+            autocomplete="off"
+          >
+          <button type="submit" class="header__search-button" aria-label="{{ 'header.search' | t }}">
+            {{ 'icon-search.svg' | inline_asset_content }}
+          </button>
+        </form>
+      </div>
+
+      {%- comment -%} Navigation - Desktop {%- endcomment -%}
+      <nav class="header__nav" aria-label="{{ 'header.main_navigation' | t }}">
+        <ul class="header__nav-list">
+          {% for link in section.settings.menu.links %}
+            <li class="header__nav-item {% if link.links.size > 0 %}has-dropdown{% endif %}">
+              <a href="{{ link.url }}" class="header__nav-link {% if link.active %}is-active{% endif %}">
+                {{ link.title }}
+                {% if link.links.size > 0 %}
+                  <span class="header__nav-chevron">
+                    {{ 'icon-chevron.svg' | inline_asset_content }}
+                  </span>
+                {% endif %}
+              </a>
+              {% if link.links.size > 0 %}
+                <ul class="header__dropdown">
+                  {% for child_link in link.links %}
+                    <li class="header__dropdown-item">
+                      <a href="{{ child_link.url }}" class="header__dropdown-link">
+                        {{ child_link.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+
+    {%- comment -%} Icons {%- endcomment -%}
+    <div class="header__icons">
+      <a href="{{ routes.cart_url }}" class="header__icon" aria-label="{{ 'header.cart' | t }}">
+        {{ 'icon-cart.svg' | inline_asset_content }}
+        {% if cart.item_count > 0 %}
+          <span class="header__icon-badge">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+
+      <a href="#" class="header__icon" aria-label="{{ 'header.wishlist' | t }}">
+        {{ 'icon-wishlist.svg' | inline_asset_content }}
+      </a>
+
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" class="header__icon" aria-label="{{ 'header.account' | t }}">
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
+      {% endif %}
+
+      {%- comment -%} Mobile menu toggle {%- endcomment -%}
+      <button
+        type="button"
+        class="header__menu-toggle"
+        aria-label="{{ 'header.menu' | t }}"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="header__menu-icon header__menu-icon--open">
+          {{ 'icon-menu.svg' | inline_asset_content }}
+        </span>
+        <span class="header__menu-icon header__menu-icon--close">
+          {{ 'icon-close.svg' | inline_asset_content }}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile menu {%- endcomment -%}
+  <div id="mobile-menu" class="header__mobile-menu">
+    <div class="header__mobile-search">
+      <form action="{{ routes.search_url }}" method="get" class="header__search-form">
+        <input
+          type="search"
+          name="q"
+          placeholder="{{ 'header.search_placeholder' | t }}"
+          class="header__search-input"
+          autocomplete="off"
+        >
+        <button type="submit" class="header__search-button" aria-label="{{ 'header.search' | t }}">
+          {{ 'icon-search.svg' | inline_asset_content }}
+        </button>
+      </form>
+    </div>
+
+    <nav class="header__mobile-nav" aria-label="{{ 'header.mobile_navigation' | t }}">
+      <ul class="header__mobile-nav-list">
+        {% for link in section.settings.menu.links %}
+          <li class="header__mobile-nav-item">
+            {% if link.links.size > 0 %}
+              <details class="header__mobile-dropdown">
+                <summary class="header__mobile-nav-link">
+                  {{ link.title }}
+                  <span class="header__nav-chevron">
+                    {{ 'icon-chevron.svg' | inline_asset_content }}
+                  </span>
+                </summary>
+                <ul class="header__mobile-dropdown-list">
+                  {% for child_link in link.links %}
+                    <li>
+                      <a href="{{ child_link.url }}" class="header__mobile-dropdown-link">
+                        {{ child_link.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </details>
+            {% else %}
+              <a href="{{ link.url }}" class="header__mobile-nav-link">
+                {{ link.title }}
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>
+{% if section.settings.sticky %}
+  <div class="header-spacer"></div>
+{% endif %}
+
+{% style %}
+  .header {
+    --header-height: 4.5rem;
+    --header-bg: {{ settings.header_background_color }};
+    --header-text: {{ settings.header_foreground_color }};
+    --header-accent: {{ settings.header_accent_color }};
+    --header-border: {{ settings.header_search_color }};
+
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    height: var(--header-height);
+    width: 100%;
+    z-index: 100;
+  }
+
+  .header--sticky {
+    position: fixed;
+    top: var(--announcement-bar-height, 0);
+    left: 0;
+    right: 0;
+    animation: slideDown 0.3s ease-in;
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .header-spacer {
+    height: 0;
+    transition: height 0.2s ease;
+  }
+
+  .header-spacer--active {
+    height: calc(var(--header-height) + var(--announcement-bar-height, 0));
+  }
+
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: var(--header-height);
+    padding: 0 var(--page-margin, 1rem);
+    max-width: var(--page-width);
+    margin: 0 auto;
+  }
+
+  .header__center {
+    display: flex;
+    align-items: center;
+    justify-content: {{ section.settings.content_alignment }};
+    gap: 2.5rem;
+    flex: 1;
+  }
+
+  /* Logo */
+  .header__logo {
+    flex-shrink: 0;
+  }
+
+  .header__logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--header-accent);
+  }
+
+  .header__logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .header__logo-image {
+    height: 1.5rem;
+    width: auto;
+  }
+
+  @media (min-width: 922px) {
+    .header__logo-image {
+      height: 2rem;
+    }
+  }
+
+  /* Search */
+  .header__search {
+    flex: 1;
+    max-width: 28rem;
+    display: none;
+  }
+
+  @media (min-width: 922px) {
+    .header__search {
+      display: block;
+    }
+  }
+
+  .header__search-form {
+    display: flex;
+    align-items: center;
+    background-color: var(--header-border);
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+
+  .header__search-input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--header-text);
+    font-size: 0.875rem;
+  }
+
+  .header__search-input::placeholder {
+    color: #ffffffff;
+  }
+
+  .header__search-input:focus {
+    outline: none;
+  }
+
+  .header__search-input::-webkit-search-cancel-button,
+  .header__search-input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .header__search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: transparent;
+    color: #ffffffff;
+    cursor: pointer;
+  }
+
+  .header__search-button:hover {
+    color: var(--header-text);
+  }
+
+  .header__search-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* Navigation - Desktop */
+  .header__nav {
+    display: none;
+  }
+
+  @media (min-width: 922px) {
+    .header__nav {
+      display: block;
+    }
+  }
+
+  .header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .header__nav-item {
+    position: relative;
+  }
+
+  .header__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--header-text);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .header__nav-link:hover,
+  .header__nav-link.is-active {
+    color: var(--header-accent);
+  }
+
+  .header__nav-chevron {
+    display: flex;
+    transition: transform 0.2s ease;
+  }
+
+  .header__nav-chevron svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .header__nav-item.has-dropdown:hover .header__nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown - Desktop */
+  .header__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 12rem;
+    background-color: var(--header-bg);
+    border: 1px solid var(--header-border);
+    border-radius: 0.25rem;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.5rem);
+    transition: all 0.2s ease;
+  }
+
+  .header__nav-item.has-dropdown:hover .header__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .header__dropdown-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--header-text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .header__dropdown-link:hover {
+    background-color: var(--header-border);
+    color: var(--header-accent);
+  }
+
+  /* Icons */
+  .header__icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+
+  .header__icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .header__icon:hover {
+    color: var(--header-accent);
+  }
+
+  .header__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .header__icon-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 1rem;
+    height: 1rem;
+    padding: 0 0.25rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1rem;
+    text-align: center;
+    color: var(--header-text);
+    background-color: var(--header-accent);
+    border-radius: 50%;
+  }
+
+  /* Mobile menu toggle */
+  .header__menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    color: var(--header-text);
+    cursor: pointer;
+  }
+
+  @media (min-width: 922px) {
+    .header__menu-toggle {
+      display: none;
+    }
+  }
+
+  .header__menu-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .header__menu-icon--close {
+    display: none;
+  }
+
+  .header__menu-toggle[aria-expanded='true'] .header__menu-icon--open {
+    display: none;
+  }
+
+  .header__menu-toggle[aria-expanded='true'] .header__menu-icon--close {
+    display: flex;
+  }
+
+  /* Mobile menu */
+  .header__mobile-menu {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg);
+    border-top: 1px solid var(--header-border);
+    padding: 1rem var(--page-margin, 1rem);
+    max-height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+  }
+
+  .header__mobile-menu.is-open {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .header__mobile-menu {
+      display: none !important;
+    }
+  }
+
+  .header__mobile-search {
+    margin-bottom: 1rem;
+  }
+
+  .header__mobile-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .header__mobile-nav-item {
+    border-bottom: 1px solid var(--header-border);
+  }
+
+  .header__mobile-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 0;
+    color: var(--header-text);
+    text-decoration: none;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header__mobile-dropdown {
+    width: 100%;
+  }
+
+  .header__mobile-dropdown summary {
+    list-style: none;
+  }
+
+  .header__mobile-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .header__mobile-dropdown[open] .header__nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  .header__mobile-dropdown-list {
+    list-style: none;
+    padding: 0 0 0.5rem 1rem;
+    margin: 0;
+  }
+
+  .header__mobile-dropdown-link {
+    display: block;
+    padding: 0.75rem 0;
+    color: #888888;
+    text-decoration: none;
+    font-size: 0.9375rem;
+  }
+
+  .header__mobile-dropdown-link:hover {
+    color: var(--header-accent);
+  }
+{% endstyle %}
+
+{% javascript %}
+  const menuToggle = document.querySelector('.header__menu-toggle');
+  const mobileMenu = document.querySelector('.header__mobile-menu');
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      mobileMenu.classList.toggle('is-open');
+
+      if (!isExpanded) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // Sticky header on scroll
+  const header = document.querySelector('.header');
+  const headerSpacer = document.querySelector('.header-spacer');
+
+  if (header && header.dataset.sticky === 'true') {
+    const scrollThreshold = 200;
+
+    function handleScroll() {
+      if (window.scrollY > scrollThreshold) {
+        header.classList.add('header--sticky');
+        if (headerSpacer) headerSpacer.classList.add('header-spacer--active');
+      } else {
+        header.classList.remove('header--sticky');
+        if (headerSpacer) headerSpacer.classList.remove('header-spacer--active');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:labels.logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:labels.sticky_header",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:labels.content_alignment",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "t:options.alignment.left" },
+        { "value": "center", "label": "t:options.alignment.center" },
+        { "value": "flex-end", "label": "t:options.alignment.right" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,352 @@
+<div
+  class="announcement-bar full-width"
+  data-sticky="{{ section.settings.sticky }}"
+  style="
+    --announcement-bg: {{ section.settings.background_color }};
+    --announcement-text: {{ section.settings.text_color }};
+    --rotation-speed: {{ section.settings.rotation_speed }}s;
+  "
+  data-rotation-speed="{{ section.settings.rotation_speed }}"
+>
+  <div class="announcement-bar__content">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <div
+          class="announcement-bar__slide {% if forloop.first %}announcement-bar__slide--active{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="announcement-bar__link">
+              {{ block.settings.text }}
+            </a>
+          {% else %}
+            <p class="announcement-bar__text">{{ block.settings.text }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="announcement-bar__text">Add announcements</p>
+    {% endif %}
+
+    {% if section.settings.enable_socials %}
+      <ul class="announcement-bar__socials">
+        {% if section.settings.facebook_socials %}
+          <li>
+            <a href="{{ section.settings.facebook_url | default: 'https://www.facebook.com' }}" target="_blank">
+              <img src="{{ 'icon-facebook.svg' | asset_url }}" alt="Facebook" width="18" height="18">
+            </a>
+          </li>
+        {% endif %}
+        {% if section.settings.instagram_socials %}
+          <li>
+            <a href="{{ section.settings.instagram_url | default: 'https://www.instagram.com' }}" target="_blank">
+              <img src="{{ 'icon-instagram.svg' | asset_url }}" alt="Instagram" width="18" height="18">
+            </a>
+          </li>
+        {% endif %}
+        {% if section.settings.twitter_socials %}
+          <li>
+            <a href="{{ section.settings.twitter_url | default: 'https://x.com' }}" target="_blank">
+              <img src="{{ 'icon-x.svg' | asset_url }}" alt="X" width="18" height="18">
+            </a>
+          </li>
+        {% endif %}
+        {% if section.settings.tiktok_socials %}
+          <li>
+            <a href="{{ section.settings.tiktok_url | default: 'https://www.tiktok.com' }}" target="_blank">
+              <img src="{{ 'icon-tiktok.svg' | asset_url }}" alt="TikTok" width="18" height="18">
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+
+{% style %}
+  :root {
+    --announcement-bar-height: {% if section.settings.sticky %}2.25rem{% else %}0px{% endif %};
+  }
+
+  .announcement-bar {
+   background-color: var(--announcement-bg);
+    color: var(--announcement-text);
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .announcement-bar--sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+    animation: slideDownAnnouncement 0.3s ease-in;
+  }
+
+  @keyframes slideDownAnnouncement {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .announcement-bar__content {
+
+    max-width: var(--page-width);
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement-bar__slide {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    width: 100%;
+    text-align: center;
+  }
+
+  .announcement-bar__slide--active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .announcement-bar__text,
+  .announcement-bar__link {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .announcement-bar__link {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .announcement-bar__link:hover {
+    opacity: 0.8;
+  }
+
+  .announcement-bar__socials {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  .announcement-bar__socials li {
+    display: flex;
+    align-items: center;
+  }
+
+  .announcement-bar__socials a {
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  .announcement-bar__socials a:hover {
+    opacity: 1;
+  }
+
+  .announcement-bar__socials img {
+    filter: brightness(0) invert(1);
+  }
+{% endstyle %}
+
+{% javascript %}
+  const announcementBar = document.querySelector('.announcement-bar');
+  if (announcementBar) {
+    const slides = announcementBar.querySelectorAll('.announcement-bar__slide');
+    const speed = parseInt(announcementBar.dataset.rotationSpeed) * 1000 || 5000;
+
+    if (slides.length > 1) {
+      let currentIndex = 0;
+
+      setInterval(() => {
+        slides[currentIndex].classList.remove('announcement-bar__slide--active');
+        currentIndex = (currentIndex + 1) % slides.length;
+        slides[currentIndex].classList.add('announcement-bar__slide--active');
+      }, speed);
+    }
+
+    // Sticky announcement bar on scroll
+    if (announcementBar.dataset.sticky === 'true') {
+      const scrollThreshold = 200;
+
+      function handleAnnouncementScroll() {
+        if (window.scrollY > scrollThreshold) {
+          announcementBar.classList.add('announcement-bar--sticky');
+        } else {
+          announcementBar.classList.remove('announcement-bar--sticky');
+        }
+      }
+
+      window.addEventListener('scroll', handleAnnouncementScroll, { passive: true });
+      handleAnnouncementScroll();
+    }
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "class": "announcement-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:labels.background",
+      "default": "#e85a3c"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:labels.text_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:labels.sticky",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rotation_speed",
+      "label": "t:labels.rotation_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+
+    {
+      "type": "header",
+      "content": "t:general.social_media"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_socials",
+      "label": "t:labels.enable_socials",
+      "default": true,
+      "info": "t:info.enable_socials"
+    },
+    {
+      "type": "checkbox",
+      "id": "facebook_socials",
+      "label": "t:labels.show_facebook",
+      "default": true,
+      "visible_if": "{{ section.settings.enable_socials }}"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "t:labels.facebook_url",
+      "visible_if": "{{ section.settings.facebook_socials and section.settings.enable_socials }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "instagram_socials",
+      "label": "t:labels.show_instagram",
+      "default": true,
+      "visible_if": "{{ section.settings.enable_socials }}"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "t:labels.instagram_url",
+      "visible_if": "{{ section.settings.instagram_socials and section.settings.enable_socials }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "twitter_socials",
+      "label": "t:labels.show_x",
+      "default": true,
+      "visible_if": "{{ section.settings.enable_socials }}"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "t:labels.x_url",
+      "visible_if": "{{ section.settings.twitter_socials and section.settings.enable_socials }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "tiktok_socials",
+      "label": "t:labels.show_tiktok",
+      "default": true,
+      "visible_if": "{{ section.settings.enable_socials }}"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "t:labels.tiktok_url",
+      "visible_if": "{{ section.settings.tiktok_socials and section.settings.enable_socials }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:general.announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "Welcome to our store"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:labels.link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.announcement_bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on orders over $50"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "New arrivals every week"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
