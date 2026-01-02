@@ -1,13 +1,57 @@
-<section>newsletter</section>
+<section class="newsletter" style="text-align: {{ section.settings.text_alignment }};">
+  <div class="newsletter__content">
+    {% if section.settings.header_title != blank %}
+      <h2 class="newsletter__title">{{ section.settings.header_title }}</h2>
+    {% endif %}
+    {% if section.settings.text_content != blank %}
+      <div class="newsletter__text">{{ section.settings.text_content }}</div>
+    {% endif %}
+  </div>
+
+  {% form 'customer', class: 'newsletter__form' %}
+    <input
+      type="hidden"
+      name="contact[tags]"
+      value="newsletter"
+    >
+    <div class="newsletter__input-wrapper">
+      <input
+        type="email"
+        name="contact[email]"
+        class="newsletter__input"
+        placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
+        required
+      >
+      <button type="submit" class="newsletter__button">
+        {{ 'general.newsletter.subscribe' | t }}
+      </button>
+    </div>
+  {% endform %}
+</section>
 
 {% schema %}
 {
   "name": "t:general.newsletter",
   "settings": [
-    { "type": "text", "id": "header_title", "label": "t:general.header_title" },
+    { "type": "text", "id": "header_title", "label": "t:general.header_title", "default": "Newsletter" },
     { "type": "richtext", "id": "text_content", "label": "t:general.text" },
     { "type": "header", "content": "t:general.design" },
-    { "type": "text_alignment", "id": "text_alignment", "label": "t:labels.text_alignment" },
+    {
+      "type": "radio",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "column"
+    },
     {
       "type": "range",
       "id": "padding_top",
@@ -53,3 +97,89 @@
   "presets": [{ "name": "t:general.newsletter" }]
 }
 {% endschema %}
+
+{% style %}
+  .newsletter {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    flex-direction: {{ section.settings.alignment }};
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    text-align: center;
+
+  }
+
+  .newsletter__content {
+    max-width: 600px;
+  }
+
+  .newsletter__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  .newsletter__text {
+    opacity: 0.8;
+    line-height: 1.6;
+
+  }
+
+  .newsletter__form {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .newsletter__input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .newsletter__input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter__input:focus {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .newsletter__button {
+    padding: 0.75rem 1.5rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .newsletter__button:hover {
+    background-color: #333;
+  }
+
+  @media (max-width: 480px) {
+    .newsletter__input-wrapper {
+      flex-direction: column;
+    }
+
+    .newsletter__input,
+    .newsletter__button {
+      width: 100%;
+    }
+  }
+{% endstyle %}
