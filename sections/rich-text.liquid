@@ -1,0 +1,279 @@
+<section class="rich-text">
+  <div class="rich-text__content">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'heading' %}
+          <{{ block.settings.heading_tag }} class="rich-text__heading" {{ block.shopify_attributes }}>
+            {{ block.settings.heading }}
+          </{{ block.settings.heading_tag }}>
+
+        {% when 'text' %}
+          <div class="rich-text__text" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </div>
+
+        {% when 'button' %}
+          <div class="rich-text__buttons" {{ block.shopify_attributes }}>
+            {% if block.settings.first_button_label != blank %}
+              <a
+                href="{{ block.settings.first_button_link }}"
+                class="rich-text__button rich-text__button--primary"
+              >
+                {{ block.settings.first_button_label }}
+              </a>
+            {% endif %}
+            {% if block.settings.second_button_label != blank %}
+              <a
+                href="{{ block.settings.second_button_link }}"
+                class="rich-text__button rich-text__button--secondary"
+              >
+                {{ block.settings.second_button_label }}
+              </a>
+            {% endif %}
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Design"
+    },
+    {
+      "type": "select",
+      "id": "desktop_text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Design"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Your heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading tag",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add your text here...</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "first_button_label",
+          "label": "First Button label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "first_button_link",
+          "label": "First Button link"
+        },
+        {
+          "type": "text",
+          "id": "second_button_label",
+          "label": "Second Button label",
+          "default": "Secondary action"
+        },
+        {
+          "type": "url",
+          "id": "second_button_link",
+          "label": "Second Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich Text",
+      "blocks": [{ "type": "heading" }, { "type": "text" }, { "type": "button" }]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .rich-text {
+    padding-top: {{ section.settings.desktop_padding_top }}px;
+    padding-bottom: {{ section.settings.desktop_padding_bottom }}px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .rich-text__content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: {{ section.settings.desktop_text_alignment }};
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: {{ section.settings.desktop_text_alignment }};
+  }
+
+  .rich-text__heading {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  h1.rich-text__heading {
+    font-size: 2.5rem;
+  }
+
+  h2.rich-text__heading {
+    font-size: 2rem;
+  }
+
+  h3.rich-text__heading {
+    font-size: 1.5rem;
+  }
+
+  h4.rich-text__heading {
+    font-size: 1.25rem;
+  }
+
+  .rich-text__text {
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .rich-text__buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .rich-text__button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .rich-text__button--primary {
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+
+  .rich-text__button--primary:hover {
+    background-color: #333;
+  }
+
+  .rich-text__button--secondary {
+    background-color: transparent;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+  }
+
+  .rich-text__button--secondary:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .rich-text {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    h1.rich-text__heading {
+      font-size: 2rem;
+    }
+
+    h2.rich-text__heading {
+      font-size: 1.5rem;
+    }
+
+    h3.rich-text__heading {
+      font-size: 1.25rem;
+    }
+
+    h4.rich-text__heading {
+      font-size: 1rem;
+    }
+  }
+{% endstyle %}
