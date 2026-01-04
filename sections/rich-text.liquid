@@ -13,7 +13,10 @@
           </div>
 
         {% when 'button' %}
-          <div class="rich-text__buttons" {{ block.shopify_attributes }}>
+          <div
+            class="rich-text__buttons {% if block.settings.enable_horizontal %}rich-text__buttons--horizontal{% else %}rich-text__buttons--vertical{% endif %}"
+            {{ block.shopify_attributes }}
+          >
             {% if block.settings.first_button_label != blank %}
               <a
                 href="{{ block.settings.first_button_link }}"
@@ -162,7 +165,8 @@
           "type": "url",
           "id": "second_button_link",
           "label": "Second Button link"
-        }
+        },
+        { "type": "checkbox", "id": "enable_horizontal", "label": "Enable horizontal", "default": true }
       ]
     }
   ],
@@ -223,6 +227,14 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .rich-text__buttons--horizontal {
+    flex-direction: row;
+  }
+
+  .rich-text__buttons--vertical {
+    flex-direction: column;
   }
 
   .rich-text__button {
